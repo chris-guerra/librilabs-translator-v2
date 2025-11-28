@@ -6,10 +6,23 @@ Monorepo containing the frontend and backend applications for Librilabs Translat
 
 This repository contains two independent projects:
 
-- **`frontend/`** - Next.js web application
-- **`backend/`** - FastAPI backend application (to be added)
+- **`frontend/`** - Next.js 16.0.4 web application
+- **`backend/`** - FastAPI (Python 3.14) backend application (to be created)
 
 Each project is completely independent and can be copied/moved separately if needed.
+
+## Architecture
+
+The project follows a fullstack monolith architecture with modular design:
+
+- **Platform:** Railway (hosting, database, CI/CD)
+- **API Versioning:** All endpoints use `/api/v1/` prefix
+- **Frontend:** Next.js 16.0.4 with React 19, TypeScript, Untitled UI components
+- **Backend:** FastAPI monolith with extractable service modules
+- **Database:** PostgreSQL (Railway managed) with SQLAlchemy 2.0
+- **External Services:** OpenAI API (translation), Resend (post-MVP authentication)
+
+For complete architecture details, see [docs/architecture.md](./docs/architecture.md).
 
 ## Getting Started
 
