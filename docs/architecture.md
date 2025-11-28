@@ -1029,10 +1029,24 @@ The system integrates with external APIs for translation processing and authenti
 - **Chunking Strategy:** Long documents are chunked into segments (max ~50,000 characters per chunk) to stay within token limits
 - **Progress Tracking:** Translation progress is tracked per chunk and aggregated to overall percentage
 - **Error Handling:** Implements retry logic with exponential backoff for transient failures
+- **Rate Limit Handling:** Service implements comprehensive rate limit handling:
+  - Respects rate limits by monitoring `x-ratelimit-remaining-requests` headers
+  - Implements exponential backoff retry logic for rate limit responses
+  - Handles 429 (Too Many Requests) responses with appropriate backoff delays
+  - Includes rate limit monitoring and logging to track API usage and prevent quota exhaustion
+  - Logs rate limit events for debugging and cost optimization
 - **Cost Management:** Token usage is tracked and logged for cost monitoring
 - **Quality Optimization:** Translation service includes additional logic beyond basic API calls for quality improvement (context preservation, terminology consistency)
 - **Async Processing:** Translation processing happens asynchronously to avoid blocking API requests
 - **Security:** API key is never exposed to frontend, all calls made server-side
+- **Offline Development Mode:** For local development when OpenAI API is unavailable:
+  - Set environment variable `USE_MOCK_OPENAI=true` in backend/.env
+  - Translation service uses mock responses instead of real API calls
+  - Mock responses return deterministic translations: "Translated: {original_text}" pattern
+  - Preserves paragraph structure, chunking behavior, and API response format
+  - Allows full workflow testing without API costs or rate limits
+  - Production deployments enforce `USE_MOCK_OPENAI=false` or unset (environment check)
+  - Mock mode is disabled in production/staging environments for safety
 
 ### Resend API (Post-MVP)
 
@@ -2346,8 +2360,29 @@ cp backend/.env.example backend/.env
 
 # Edit .env files with your configuration:
 # - DATABASE_URL (for backend)
-# - OPENAI_API_KEY (for backend)
+# - OPENAI_API_KEY (for backend) - See OpenAI API Key Setup below
 # - NEXT_PUBLIC_API_URL (for frontend)
+
+# OpenAI API Key Setup:
+# 1. Create an account at https://platform.openai.com
+# 2. Navigate to API Keys section in your account settings
+# 3. Generate a new API key (starts with 'sk-')
+# 4. Copy the key and add it to backend/.env as OPENAI_API_KEY=sk-...
+# 5. Note: API keys have usage limits based on your account tier
+#    - Default tier: ~3,500 requests/minute, ~90,000 tokens/minute
+#    - Monitor usage in OpenAI dashboard to avoid quota exhaustion
+# 6. Never commit API keys to version control - use .env.example as template only
+
+# OpenAI API Offline Development Mode:
+# For local development when OpenAI API is unavailable (rate limits, network issues, or cost concerns):
+# 1. Set environment variable: USE_MOCK_OPENAI=true in backend/.env
+# 2. Translation service will use mock responses instead of real API calls
+# 3. Mock responses return deterministic translations based on input text
+#    - Simple pattern: "Translated: {original_text}" for testing
+#    - Preserves paragraph structure and chunking behavior
+#    - Simulates API response format for realistic testing
+# 4. Mock mode allows full workflow testing without API costs or rate limits
+# 5. Production deployments must have USE_MOCK_OPENAI=false or unset (enforced by environment check)
 
 # Start all services with Docker Compose
 docker-compose up -d

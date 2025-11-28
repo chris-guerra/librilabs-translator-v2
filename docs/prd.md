@@ -281,7 +281,7 @@ The MVP uses a **Monolith FastAPI service with modular design**:
 ## Epic List
 
 ### Epic 1: Foundation & Document Upload
-Establish project infrastructure (FastAPI backend, Next.js frontend, PostgreSQL database, Docker setup, CI/CD) and deliver document upload with language selection, enabling users to upload TXT files and select source/target languages.
+Establish project infrastructure (frontend upgrade, testing infrastructure, FastAPI backend, Next.js frontend, PostgreSQL database, Docker setup, CI/CD) and deliver document upload with language selection, enabling users to upload TXT files and select source/target languages.
 
 ### Epic 2: Translation Processing & Side-by-Side Comparison
 Implement translation API with OpenAI integration, progress tracking with time estimates, and side-by-side comparison view with synchronized scrolling, enabling users to translate documents and view original and translated text side-by-side.
@@ -295,6 +295,29 @@ Implement in-place editing with auto-save, progress saving and resume functional
 
 **Epic Goal:**
 Establish the foundational infrastructure for the application (FastAPI backend, PostgreSQL database, Docker containerization, CI/CD pipeline) and deliver the document upload and language selection functionality. This enables users to upload TXT files and select source/target languages, providing the foundation for the translation workflow while validating the core infrastructure setup.
+
+### Story 1.0: Upgrade Frontend and Set Up Testing Infrastructure
+
+As a developer,  
+I want the frontend upgraded to the required versions and testing infrastructure configured,  
+so that I can develop with the correct tech stack and have testing capabilities from the start.
+
+**Acceptance Criteria:**
+1. Frontend Next.js is upgraded from 14.2.5 to 16.0.4
+2. React is upgraded from 18.3.1 to 19 (as required by Next.js 16.0.4)
+3. All frontend dependencies are updated and compatible with new versions
+4. Frontend application runs successfully after upgrade
+5. Frontend testing framework (Vitest) is installed and configured
+6. React Testing Library is installed and configured for component testing
+7. Playwright is installed and configured for E2E testing
+8. Basic test setup files are created (vitest.config.ts, playwright.config.ts)
+9. Example test files demonstrate testing patterns for frontend components
+10. Frontend test scripts are added to package.json (test, test:e2e)
+11. Backend testing framework (Pytest) setup is documented in backend setup guide
+12. Backend testing with httpx is configured (will be implemented in Story 1.1)
+13. Testing infrastructure is verified to work (can run example tests successfully)
+
+**Note:** This story should be completed before Story 1.1 to ensure the correct tech stack is in place from the beginning.
 
 ### Story 1.1: Set Up FastAPI Backend Structure with Health Check
 
@@ -310,6 +333,14 @@ so that I can verify the backend is running and establish the foundation for API
 5. CORS is configured to allow frontend connections
 6. Basic error handling middleware is in place
 7. Application can be run with `uvicorn` command
+8. OpenAI API key setup process is documented (developer guide or README)
+9. Environment variable template (.env.example) includes OPENAI_API_KEY placeholder
+10. Instructions for obtaining OpenAI API key are provided (account creation, key generation, usage limits)
+11. Secure storage of API key is configured (environment variables, not hardcoded)
+12. Backend testing framework (Pytest) is installed and configured
+13. httpx test client is configured for API endpoint testing
+14. Example test demonstrates testing FastAPI endpoints (e.g., health check test)
+15. Backend test scripts are configured (pytest command works)
 
 ### Story 1.2: Set Up PostgreSQL Database with SQLAlchemy and Alembic
 
@@ -462,10 +493,14 @@ so that I can translate document content with quality optimization while maintai
 5. Translation preserves or tracks original paragraph boundaries for alignment purposes
 6. Translation includes additional quality optimization logic beyond basic API calls
 7. Service handles API errors and retries appropriately
-8. Service returns translated text with proper formatting preservation
-9. Service maintains information about original paragraph structure to support side-by-side alignment
-10. Service is designed to be extractable to separate microservice if needed
-11. Translation service is testable with mocked OpenAI responses
+8. Service implements API rate limit handling (respects rate limits, implements exponential backoff, handles 429 responses)
+9. Service includes rate limit monitoring/logging to track API usage and prevent quota exhaustion
+10. Service returns translated text with proper formatting preservation
+11. Service maintains information about original paragraph structure to support side-by-side alignment
+12. Service is designed to be extractable to separate microservice if needed
+13. Translation service is testable with mocked OpenAI responses
+14. Service supports offline development mode via USE_MOCK_OPENAI environment variable (returns deterministic mock translations for local testing without API costs or rate limits)
+15. Mock mode is disabled in production/staging environments (enforced by environment check)
 
 ### Story 2.3: Implement Translation API Endpoint with Progress Tracking
 
