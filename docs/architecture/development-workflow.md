@@ -9,7 +9,7 @@ Development setup and workflow for the fullstack application.
 ```bash
 # Required software
 - Node.js 18+ and npm
-- Python 3.14
+- Python (latest stable version)
 - Docker and Docker Compose
 - Git
 ```

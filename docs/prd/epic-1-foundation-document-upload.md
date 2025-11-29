@@ -56,7 +56,7 @@ I want Docker containerization for both frontend and backend with a Makefile for
 so that I can deploy the application consistently across environments and develop with containerized services.
 
 **Acceptance Criteria:**
-1. Dockerfile is created for FastAPI backend with Python 3.14
+1. Dockerfile is created for FastAPI backend with latest stable Python version
 2. Dockerfile is created for Next.js frontend (or multi-stage build)
 3. docker-compose.yml is created for local development (backend, frontend, PostgreSQL)
 4. Makefile is created with standard development commands (build, up, down, logs, clean, etc.)
