@@ -1,0 +1,55 @@
+# Quality Gate Decision
+schema: 1
+story: "1.2"
+story_title: "Set Up Docker and Deployment Configuration"
+gate: PENDING
+status_reason: "Story not yet implemented. Gate will be updated after implementation and QA review."
+reviewer: "TBD"
+updated: "2025-01-27T00:00:00Z"
+
+# Always present but only active when WAIVED
+waiver: { active: false }
+
+# Issues (if any) - Use fixed severity: low | medium | high
+top_issues: []
+
+# Risk summary
+risk_summary:
+  totals:
+    critical: 0
+    high: 0
+    medium: 0
+    low: 0
+  highest: null
+  recommendations:
+    must_fix: []
+    monitor: []
+
+# Test coverage summary
+test_coverage:
+  unit: { total: 0, passing: 0, failing: 0, coverage_percent: 0 }
+  integration: { total: 0, passing: 0, failing: 0, coverage_percent: 0 }
+  e2e: { total: 0, passing: 0, failing: 0, coverage_percent: 0 }
+  total: { total: 0, passing: 0, failing: 0, coverage_percent: 0 }
+
+# Acceptance criteria status
+acceptance_criteria:
+  total: 12
+  met: 0
+  not_met: 0
+  status: "pending"
+
+# Notes
+notes: |
+  This gate will be populated after Story 1.2 implementation and QA review.
+  
+  Key areas to verify:
+  - Dockerfiles for backend and frontend are correctly configured
+  - docker-compose.yml includes all services with proper configuration
+  - Makefile includes all standard commands (build, up, down, logs, clean, etc.)
+  - Makefile supports development mode with volume mounting for hot-reload
+  - Docker images use intuitive names (librilabs-translator-backend, librilabs-translator-frontend)
+  - Environment variables are properly configured
+  - All services can start and communicate correctly
+  - Development workflow is documented
+
