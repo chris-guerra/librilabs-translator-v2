@@ -13,6 +13,12 @@ logger = logging.getLogger(__name__)
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
+    # Database configuration
+    # Required: Set DATABASE_URL in .env file or environment variable
+    # Format: postgresql+asyncpg://user:password@host:port/dbname
+    # See .env.example for local development example
+    database_url: str  # Required - no default to prevent hardcoded credentials
+    
     # OpenAI API configuration
     openai_api_key: Optional[str] = None
     
@@ -20,6 +26,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
+        extra="ignore",  # Ignore extra environment variables not defined in Settings
     )
 
 
